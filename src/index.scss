@@ -1,0 +1,17 @@
+@import "./vars.scss";
+
+body {
+	margin: 0;
+	font-family: "Source Sans Pro", sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	background-color: $color-bg;
+
+	letter-spacing: 1px;
+	overflow: hidden;
+}
+
+*::-webkit-scrollbar {
+	width: 0;
+}
