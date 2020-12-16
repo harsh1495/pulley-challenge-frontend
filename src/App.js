@@ -8,8 +8,8 @@ import "./App.scss";
 function App() {
 	// The query which user searches for
 	const [query, setQuery] = useState("");
-	// A variable to track whether the user has performed the search yet or not
-	// Mostly used to animate stuff
+
+	// A variable to track whether the user has performed the search yet or not - used for animations
 	const [hasSearched, setHasSearched] = useState(false);
 
 	// This holds the list of search results available for a query
@@ -19,13 +19,15 @@ function App() {
 	// In one query, we get `resultsToFetchInOneRequest` in total
 	// But the results are large
 	// So on the results panel, we can only show one result ( out of `resultsToFetchInOneRequest` ) at a time
-	// Meaning that we need to maintain pagination at two places. 1 locally and one with the backend.
+	// So we maintain pagination at two places - locally and with the backend.
 	const [queryStartParameter, setQueryStartParameter] = useState(0);
+
 	// Because there is going to be only one result to be shown on the UI at once,
 	// We need to track which result is actually being shown - We need to keep track the index of that
 	const [currentResultIndex, setCurrentResultIndex] = useState(1);
 	const [numberOfTotalResults, setNumberOfTotalResults] = useState(0);
 
+	// loading and error states
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState();
 
@@ -120,6 +122,7 @@ function App() {
 			// It should never go beyond `numberOfTotalResults`
 			const nextResultIndex = Math.min(numberOfTotalResults, currentResultIndex + 1);
 			setCurrentResultIndex(nextResultIndex);
+
 			// We need to fetch more results in case the user is about to reach the end of the current result set
 			// We try to fetch next set of results when the user has reached 70% of the current window
 			// So if the current active window is [10, 20] then we fetch next results (20, 30) when the user is on 17th page
