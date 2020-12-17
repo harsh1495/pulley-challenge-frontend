@@ -1,6 +1,6 @@
 # Pulley Shakesearch Challenge
 
-The frontend is deployed on Heroku: https://quiet-refuge-59908.herokuapp.com/
+The frontend is deployed on Heroku: https://quiet-refuge-59908.herokuapp.com
 
 # Getting Started with Create React App
 
