@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import * as api from "./api";
 import config from "./config";
+import { getSearchResultsAlgolia } from "./algolia";
 
 import "./App.scss";
 
@@ -14,6 +15,9 @@ function App() {
 
 	// This holds the list of search results available for a query
 	const [searchResults, setSearchResults] = useState([]);
+
+	// This holds the list of search results returned from Algolia after every keystroke
+	const [algoliaSearchResults, setAlgoliaSearchResults] = useState([]);
 
 	// Pagination
 	// In one query, we get `resultsToFetchInOneRequest` in total
@@ -36,6 +40,19 @@ function App() {
 			setQuery(e.target.value);
 			setHasSearched(false);
 			setError(null);
+			// calling the algolia search api
+			getSearchResultsAlgolia(e.target.value)
+				.then(({ hits }) => {
+					const textToShow = hits.map(hit => {
+						const highlightedValue = hit._highlightResult.raw_content.value;
+						return highlightedValue.substring(
+							highlightedValue.indexOf("<em>") - 50,
+							highlightedValue.indexOf("<em>") + 50
+						);
+					});
+					setAlgoliaSearchResults(textToShow);
+				})
+				.catch(err => console.log(err));
 		}
 		async function onFormSubmit(e) {
 			e.preventDefault(); // This prevents the form from submitting - Thus prevents from the page being reloaded
@@ -72,6 +89,29 @@ function App() {
 			);
 		}
 
+		function renderLines() {
+			if (query) return;
+			return (
+				<div className={`input-lines ${hasSearched ? "searched" : ""}`}>
+					<img src="res/images/lines.png" alt=""></img>
+				</div>
+			);
+		}
+
+		function renderSearchResultList() {
+			if (!query || hasSearched) return;
+			if (algoliaSearchResults.length === 0) return;
+			return (
+				<div className="input-search-results">
+					<datalist className="input-search-results datalist" id="search-results">
+						{algoliaSearchResults.map((hit, index) => (
+							<option key={index} value={hit} />
+						))}
+					</datalist>
+				</div>
+			);
+		}
+
 		function renderError() {
 			if (!error) return;
 			return (
@@ -96,14 +136,14 @@ function App() {
 								<input
 									className="search-input"
 									placeholder="What art thee looking f'r?"
+									list="search-results"
 									value={query}
 									onChange={onQueryChange}
 								></input>
 								{renderSearchIcon()}
 							</div>
-							<div className={`input-lines ${hasSearched ? "searched" : ""}`}>
-								<img src="res/images/lines.png" alt=""></img>
-							</div>
+							{renderLines()}
+							{renderSearchResultList()}
 						</div>
 						{renderError()}
 					</div>
