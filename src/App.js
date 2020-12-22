@@ -44,7 +44,7 @@ function App() {
 			getSearchResultsAlgolia(e.target.value)
 				.then(({ hits }) => {
 					const textToShow = hits.map(hit => {
-						const highlightedValue = hit._highlightResult.raw_content.value;
+						const highlightedValue = hit._highlightResult.raw_content.value.trim();
 						return highlightedValue.substring(
 							highlightedValue.indexOf("<em>") - 50,
 							highlightedValue.indexOf("<em>") + 50
@@ -103,11 +103,17 @@ function App() {
 			if (algoliaSearchResults.length === 0) return;
 			return (
 				<div className="input-search-results">
-					<datalist className="input-search-results datalist" id="search-results">
+					<div className="datalist" id="search-results">
 						{algoliaSearchResults.map((hit, index) => (
-							<option key={index} value={hit} />
+							<div
+								className="option"
+								key={index}
+								dangerouslySetInnerHTML={{
+									__html: hit
+								}}
+							></div>
 						))}
-					</datalist>
+					</div>
 				</div>
 			);
 		}
@@ -143,9 +149,9 @@ function App() {
 								{renderSearchIcon()}
 							</div>
 							{renderLines()}
-							{renderSearchResultList()}
 						</div>
 						{renderError()}
+						{renderSearchResultList()}
 					</div>
 				</form>
 			</div>
