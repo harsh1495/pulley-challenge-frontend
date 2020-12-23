@@ -59,6 +59,7 @@ function App() {
 			document.activeElement.blur(); // This removes the focus from the input element
 			setLoading(true);
 			setError(null);
+			setAlgoliaSearchResults([]);
 			setCurrentResultIndex(1); // Resetting the pagination
 			try {
 				const response = await api.getSearchResults({ query });
