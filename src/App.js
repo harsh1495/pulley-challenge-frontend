@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import * as api from "./api";
 import config from "./config";
+import Loader from "./Loader";
 import { getSearchResultsAlgolia } from "./algolia";
 
 import "./App.scss";
@@ -82,7 +83,7 @@ function App() {
 
 		function renderSearchIcon() {
 			if (!query || hasSearched) return;
-			if (loading) return <div className="search-arrow loading">...</div>;
+			if (loading) return <Loader />;
 			return (
 				<button type="submit" className="search-arrow">
 					➜

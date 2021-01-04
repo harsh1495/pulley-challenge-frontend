@@ -1,4 +1,4 @@
-# Pulley Shakesearch Challenge
+# Shakesearch Frontend
 
 The frontend is deployed on Heroku: https://quiet-refuge-59908.herokuapp.com
 
