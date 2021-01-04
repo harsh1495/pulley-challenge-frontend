@@ -277,6 +277,16 @@
 	}
 }
 
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
 .input-search-results {
 	padding-left: 64px;
 	padding-right: 64px;
@@ -306,6 +316,24 @@
 			background-color: darken($color-bg-search, 20);
 			cursor: pointer;
 		}
+	}
+}
+
+.loader {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	width: 100%;
+	height: 16rem;
+
+	.loading-icon {
+		width: 1.5rem;
+		height: 1.5rem;
+
+		background-color: rgba(75, 85, 99, 1);
+		border-radius: 9999px;
+		animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 	}
 }
 

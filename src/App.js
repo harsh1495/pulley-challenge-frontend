@@ -42,18 +42,18 @@ function App() {
 			setHasSearched(false);
 			setError(null);
 			// calling the algolia search api
-			getSearchResultsAlgolia(e.target.value)
-				.then(({ hits }) => {
-					const textToShow = hits.map(hit => {
-						const highlightedValue = hit._highlightResult.raw_content.value.trim();
-						return highlightedValue.substring(
-							highlightedValue.indexOf("<em>") - 50,
-							highlightedValue.indexOf("<em>") + 50
-						);
-					});
-					setAlgoliaSearchResults(textToShow);
-				})
-				.catch(err => console.log(err));
+			// getSearchResultsAlgolia(e.target.value)
+			// 	.then(({ hits }) => {
+			// 		const textToShow = hits.map(hit => {
+			// 			const highlightedValue = hit._highlightResult.raw_content.value.trim();
+			// 			return highlightedValue.substring(
+			// 				highlightedValue.indexOf("<em>") - 50,
+			// 				highlightedValue.indexOf("<em>") + 50
+			// 			);
+			// 		});
+			// 		setAlgoliaSearchResults(textToShow);
+			// 	})
+			// 	.catch(err => console.log(err));
 		}
 		async function onFormSubmit(e) {
 			e.preventDefault(); // This prevents the form from submitting - Thus prevents from the page being reloaded
@@ -83,7 +83,9 @@ function App() {
 
 		function renderSearchIcon() {
 			if (!query || hasSearched) return;
-			if (loading) return <Loader />;
+			if (loading) {
+				return <Loader />;
+			}
 			return (
 				<button type="submit" className="search-arrow">
 					➜
